@@ -4,7 +4,7 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
-const postRouter = require("./routers/posts.js");
+const postRouter = require("./routers/postsRouter.js");
 
 app.get("/", (req, res) => {
   console.log("Richiesta arrivata New");
