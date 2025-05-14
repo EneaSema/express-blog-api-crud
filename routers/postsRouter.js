@@ -1,38 +1,6 @@
 const express = require("express");
 const post = express.Router();
-
-const posts = [
-  {
-    title: "title-1",
-    text: "Simbolo di fierezza è nobiltà",
-    img: "/images/lupo.jpg",
-    tags: ["animale", "leader", "fierezza", "nobiltà", "orgoglio"],
-  },
-  {
-    title: "title-2",
-    text: "Strumento per poter imparare gratuitamente",
-    img: "/images/youtube.jpg",
-    tags: ["tutorial", "gratis", "imparare", "migliorare", "formazione"],
-  },
-  {
-    title: "title-3",
-    text: "Passione Manga ed Anime",
-    img: "/images/escanor.jpg",
-    tags: ["manga", "anime", "svago", "passatempo", "fantasticare"],
-  },
-  {
-    title: "title-4",
-    text: "Danza Latino Americano",
-    img: "/images/bachata.jpg",
-    tags: ["danza", "musica", "energia", "piacere", "divertimento"],
-  },
-  {
-    title: "title-",
-    text: "Squadra del cuore",
-    img: "/images/ac-milan-logo.jpg",
-    tags: ["calcio", "rossonero", "il diavolo", "milano", "champions league"],
-  },
-];
+const { posts } = require("../data/posts.js");
 
 // Risposta alla richiesta di lettura di tutti i post
 
@@ -60,7 +28,7 @@ post.get("/:id", (req, res) => {
   res.json({
     status: 200,
     description: "Ecco il post scelto:" + id,
-    data: post,
+    data: post[id],
   });
 });
 
@@ -124,6 +92,8 @@ post.delete("/:id", (req, res) => {
     });
   }
   post.splice(posts.indexOf(post), 1);
+  console.log(posts);
+  res.sendStatus(204);
 });
 
 module.exports = post;
