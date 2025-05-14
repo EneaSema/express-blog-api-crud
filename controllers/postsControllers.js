@@ -1,5 +1,4 @@
-const { posts } = require("../data/posts.js");
-const post = require("../routers/postsRouter.js");
+const posts = require("../data/posts.js");
 
 const index = (req, res) => {
   res.json({
@@ -17,7 +16,7 @@ const show = (req, res) => {
     return res.json({
       status: 404,
       error: "Not Found",
-      messagge: "Post non trovato",
+      messagge: "Post non trovato ",
     });
   }
   res.json({
@@ -28,22 +27,15 @@ const show = (req, res) => {
 };
 
 const store = (req, res) => {
-  res.send("Ecco il nuovo post creato");
-
-  if (!post) {
-    return res.json({
-      status: 404,
-      error: "Not Found",
-      messagge: "Post non trovato",
-    });
-  }
+  res.json({
+    status: 200,
+    description: "Ecco il nuovo post creato",
+  });
 };
 
 const update = (req, res) => {
   const id = parseInt(req.params.id);
   const post = posts.find((currentPost) => currentPost.id === id);
-  res.send("Ecco il post scelto per la modifica totale:" + id);
-
   if (!post) {
     return res.json({
       status: 404,
@@ -51,12 +43,15 @@ const update = (req, res) => {
       messagge: "Post non trovato",
     });
   }
+  res.json({
+    status: 200,
+    description: "Ecco il post scelto per la modifica totale:" + id,
+  });
 };
 
 const modify = (req, res) => {
   const id = parseInt(req.params.id);
   const post = posts.find((currentPost) => currentPost.id === id);
-  res.send("Ecco il post scelto per la modifica parziale:" + id);
 
   if (!post) {
     return res.json({
@@ -65,22 +60,32 @@ const modify = (req, res) => {
       messagge: "Post non trovato",
     });
   }
+  res.json({
+    status: 200,
+    description: "Ecco il post scelto per la parziale:" + id,
+  });
 };
 
 const destroy = (req, res) => {
   const id = parseInt(req.params.id);
-  const post = posts.find((currentPost) => currentPost.id === id);
-  res.send("Ecco il post scelto per eliminazione:" + id);
-  if (!post) {
+  const newPost = posts.find((currentPost) => currentPost.id === id);
+  if (!newPost) {
     return res.json({
       status: 404,
       error: "Not Found",
       messagge: "Post non trovato",
     });
   }
-  post.splice(posts.indexOf(post), 1);
+
+  posts.splice(posts.indexOf(newPost), 1);
+
   console.log(posts);
-  res.sendStatus(204);
+  console.log(newPost);
+  res.json({
+    description: "Ecco il post scelto per eliminazione:" + id,
+    status: 204,
+    data: posts,
+  });
 };
 
 module.exports = { index, show, store, update, modify, destroy };
