@@ -1,9 +1,9 @@
 const posts = require("../data/posts.js");
 
 const index = (req, res) => {
+  res.statu(200);
   res.json({
-    status: 200,
-    description: "Post totali",
+    description: "Post totali:",
     data: posts,
   });
 };
@@ -13,39 +13,66 @@ const show = (req, res) => {
   const post = posts.find((currentPost) => currentPost.id === id);
 
   if (!post) {
-    return res.json({
-      status: 404,
+    res.statu(404);
+    res.json({
       error: "Not Found",
       messagge: "Post non trovato ",
     });
+    return;
   }
+  res.statu(200);
   res.json({
-    status: 200,
     description: "Ecco il post scelto:" + id,
     data: post,
   });
 };
 
 const store = (req, res) => {
+  console.log(req.body);
+
+  const newId = posts[posts.length - 1].id + 1;
+  const { title, text, img, tags } = req.body;
+
+  const newPost = {
+    id: newId,
+    title: title,
+    text: text,
+    img: img,
+    tags: tags,
+  };
+
+  posts.push(newPost);
+
+  res.statu(201);
   res.json({
-    status: 200,
-    description: "Ecco il nuovo post creato",
+    description: "Ecco il nuovo post creato: " + id,
+    data: posts,
   });
 };
 
 const update = (req, res) => {
   const id = parseInt(req.params.id);
   const post = posts.find((currentPost) => currentPost.id === id);
+  const postIndex = posts.indexOf(post);
   if (!post) {
-    return res.json({
-      status: 404,
-      error: "Not Found",
-      messagge: "Post non trovato",
-    });
+    res.statu(404);
+    res.json("Post non trovato");
+    return;
   }
+  const { title, text, img, tags } = req.body;
+  const postPut = {
+    id: id,
+    title: title,
+    text: text,
+    img: img,
+    tags: tags,
+  };
+  posts.splice(postIndex, 1, postPut);
+  console.log(postPut);
+  res.status(201);
   res.json({
-    status: 200,
     description: "Ecco il post scelto per la modifica totale:" + id,
+    data: postPut,
   });
 };
 
@@ -54,37 +81,42 @@ const modify = (req, res) => {
   const post = posts.find((currentPost) => currentPost.id === id);
 
   if (!post) {
-    return res.json({
-      status: 404,
+    res.statu(404);
+    res.json({
       error: "Not Found",
       messagge: "Post non trovato",
     });
+    return;
   }
+  res.statu(200);
   res.json({
-    status: 200,
     description: "Ecco il post scelto per la parziale:" + id,
   });
 };
 
 const destroy = (req, res) => {
   const id = parseInt(req.params.id);
-  const newPost = posts.find((currentPost) => currentPost.id === id);
-  if (!newPost) {
-    return res.json({
-      status: 404,
+  const post = posts.find((currentPost) => currentPost.id === id);
+  if (!post) {
+    res.statu(404);
+    res.json({
       error: "Not Found",
       messagge: "Post non trovato",
     });
   }
 
-  posts.splice(posts.indexOf(newPost), 1);
+  const postIndex = posts.indexOf(post);
+  console.log(postIndex);
+
+  posts.splice(postIndex, 1);
 
   console.log(posts);
-  console.log(newPost);
+  console.log("________________");
+  console.log(post);
+  res.statu(204);
   res.json({
-    description: "Ecco il post scelto per eliminazione:" + id,
-    status: 204,
-    data: newPost,
+    description:
+      "Ecco il post: " + id + " scelto è stato eliminato correttamente",
   });
 };
 

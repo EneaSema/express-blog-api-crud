@@ -4,6 +4,8 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
+app.use(express.json());
+
 const postRouter = require("./routers/postsRouter.js");
 
 app.get("/", (req, res) => {
@@ -15,6 +17,11 @@ app.get("/", (req, res) => {
 app.use("/posts", postRouter);
 app.use(express.static("public"));
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+app.listen(port, (error) => {
+  if (error) {
+    console.error(error);
+    return;
+  } else {
+    console.log(`Example app listening on port ${port}`);
+  }
 });
