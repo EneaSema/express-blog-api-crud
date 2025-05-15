@@ -1,9 +1,9 @@
 const posts = require("../data/posts.js");
 
 const index = (req, res) => {
-  res.statu(200);
+  res.status(200);
   res.json({
-    description: "Post totali:",
+    description: "Post totali:" + posts.length,
     data: posts,
   });
 };
@@ -13,14 +13,11 @@ const show = (req, res) => {
   const post = posts.find((currentPost) => currentPost.id === id);
 
   if (!post) {
-    res.statu(404);
-    res.json({
-      error: "Not Found",
-      messagge: "Post non trovato ",
-    });
+    res.status(404);
+    res.json("Post non trovato ");
     return;
   }
-  res.statu(200);
+  res.status(200);
   res.json({
     description: "Ecco il post scelto:" + id,
     data: post,
@@ -43,9 +40,9 @@ const store = (req, res) => {
 
   posts.push(newPost);
 
-  res.statu(201);
+  res.status(201);
   res.json({
-    description: "Ecco il nuovo post creato: " + id,
+    description: "Ecco il nuovo post creato: " + newId,
     data: posts,
   });
 };
@@ -55,7 +52,7 @@ const update = (req, res) => {
   const post = posts.find((currentPost) => currentPost.id === id);
   const postIndex = posts.indexOf(post);
   if (!post) {
-    res.statu(404);
+    res.status(404);
     res.json("Post non trovato");
     return;
   }
@@ -81,16 +78,14 @@ const modify = (req, res) => {
   const post = posts.find((currentPost) => currentPost.id === id);
 
   if (!post) {
-    res.statu(404);
-    res.json({
-      error: "Not Found",
-      messagge: "Post non trovato",
-    });
+    res.status(404);
+    res.json("Post non trovato");
     return;
   }
-  res.statu(200);
+  res.status(200);
   res.json({
     description: "Ecco il post scelto per la parziale:" + id,
+    data: posts,
   });
 };
 
@@ -98,11 +93,8 @@ const destroy = (req, res) => {
   const id = parseInt(req.params.id);
   const post = posts.find((currentPost) => currentPost.id === id);
   if (!post) {
-    res.statu(404);
-    res.json({
-      error: "Not Found",
-      messagge: "Post non trovato",
-    });
+    res.status(404);
+    res.json("Post non trovato");
   }
 
   const postIndex = posts.indexOf(post);
@@ -113,11 +105,9 @@ const destroy = (req, res) => {
   console.log(posts);
   console.log("________________");
   console.log(post);
-  res.statu(204);
-  res.json({
-    description:
-      "Ecco il post: " + id + " scelto è stato eliminato correttamente",
-  });
+
+  res.status(204);
+  res.json("Ecco il post: " + id + " scelto è stato eliminato correttamente");
 };
 
 module.exports = { index, show, store, update, modify, destroy };
