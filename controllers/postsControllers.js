@@ -1,22 +1,12 @@
 const posts = require("../data/posts.js");
 
 const index = (req, res) => {
-  let filterPosts = posts;
-
-  if (req.query.tags) {
-    filterPosts = posts.filter((post) => post.tags.includes(req.query.tags));
-  }
-  return res.json({
-    status: 404,
-    error: "Not Found",
-    messagge: "Tags non trovato ",
+  res.json({
+    status: 200,
+    description: "Post totali",
+    data: posts,
   });
 };
-//   res.json({
-//     status: 200,
-//     description: "Post totali",
-//     data: filterPosts,
-//   });
 
 const show = (req, res) => {
   const id = parseInt(req.params.id);
