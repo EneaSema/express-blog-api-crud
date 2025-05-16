@@ -7,6 +7,8 @@ const port = 3000;
 app.use(express.json());
 
 const postRouter = require("./routers/postsRouter.js");
+const errorNotFound = require("./middlewares/middlewareNotFound.js");
+const errorsHandler = require("./middlewares/middlewareError.js");
 
 app.get("/", (req, res) => {
   console.log("Richiesta arrivata New");
@@ -16,6 +18,8 @@ app.get("/", (req, res) => {
 
 app.use("/posts", postRouter);
 app.use(express.static("public"));
+app.use(errorNotFound);
+app.use(errorsHandler);
 
 app.listen(port, (error) => {
   if (error) {
