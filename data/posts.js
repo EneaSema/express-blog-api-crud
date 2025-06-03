@@ -31,7 +31,7 @@ const posts = [
     id: 5,
     title: "Milan",
     text: "Squadra del cuore",
-    img: "/images/ac-milan-logo.jpg",
+    img: "/images/ac-milan-logo.png",
     tags: ["calcio", "rossonero", "il diavolo", "milano", "champions league"],
   },
 ];
